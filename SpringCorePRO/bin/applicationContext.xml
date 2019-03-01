@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd ">
+
+
+<!-- Bean Definition -->
+<!-- infrastructure service class whose object's life cycle IOC container will manage must be defined in XML file -->
+<!-- Bean definition- Configuration  template-->
+<!-- IOC container by default implement factory and singleton Design patterns -->
+	<bean id="bean1" class="com.cognizant.beans.Bean1"></bean>
+	
+	<!-- by default singleton beans are eagerly loaded -->
+	<bean id="bean2" class="com.cognizant.beans.Bean2" lazy-init="true"></bean>
+	
+	<!-- to make bean prototype specify scope="prototype"-->
+	<bean id="bean3" class="com.cognizant.beans.Bean3" scope="prototype"></bean>
+	
+	<!-- custom init and destroy method -->
+	<bean id="bean4" class="com.cognizant.beans.Bean4" init-method="initMethod" destroy-method="destroyMethod"></bean>
+
+    <!-- factory method 
+    <bean id="bean5" class="com.cognizant.beans.Beans5" factory-method="createInstance"  ></bean> -->
+    
+    <!-- factory bean -->
+      <bean id="FactoryBean" class="com.cognizant.beans.FactoryBean"></bean>
+     <!-- factory method-->
+    <bean id="bean5" class="com.cognizant.beans.Beans5" factory-bean="FactoryBean" factory-method="createInstanceBean5"  ></bean> 
+      
+      <!-- dependency injection using constructor -->
+      <bean id="datasource" class="com.cognizant.di.DataSource">
+      <constructor-arg index="0" type="java.lang.String" value="oracle.jdbc.OracleDriver"></constructor-arg>
+       <constructor-arg index="1" type="java.lang.String" value="jdbc:oracle:thin:@localhost:1521:ORCL"></constructor-arg>
+        <constructor-arg index="2" type="java.lang.String" value="sabbir"></constructor-arg>
+         <constructor-arg index="3" type="java.lang.String" value="sabbir"></constructor-arg>
+      </bean> 
+      
+     <!--  if the constructor might chnage then we can use dependency injection using setters-->  
+      <bean id="productquery" class="com.cognizant.di.ProductsQuery">
+      <property name="selectProducts" value="select * from products"></property>
+      <property name="insertProduct" value="insert into products values(?,?,?,?)"></property>      
+      </bean>
+</beans>
